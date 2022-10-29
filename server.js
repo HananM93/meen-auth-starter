@@ -2,7 +2,10 @@
 const express = require("express")
 const app = express()
 const mongoose = require("mongoose")
+
+
 require("dotenv").config()
+
 
 // Database Configuration
 mongoose.connect(process.env.DATABASE_URL, {
@@ -16,9 +19,14 @@ mongoose.connect(process.env.DATABASE_URL, {
   db.on("connected", () => console.log("mongo connected"))
   db.on("disconnected", () => console.log("mongo disconnected"))
 
+// Middleware
+// Body parser middleware: give us access to req.body
+app.use(express.urlencoded({ extended: true }))
 
 
-
+// Routes / Controllers
+const userController = require("./controllers/users")
+app.use("/users", userController)
 
 
 
